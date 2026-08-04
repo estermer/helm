@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <StaticWebAssets Include="wwwroot\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Helm.Application\Helm.Application.csproj" />
+    <ProjectReference Include="..\Helm.Infrastructure\Helm.Infrastructure.csproj" />
+    <ProjectReference Include="..\Helm.Domain\Helm.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

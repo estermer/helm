@@ -1,0 +1,8 @@
+{
+  "files.eol": "\n",
+  "files.associations": {
+    "*.slnx": "xml"
+  },
+  "typescript.tsdk": "${workspaceFolder}/src/Helm.Web/node_modules/typescript/lib",
+  "dotnet.defaultSolution": "${workspaceFolder}/src/Helm.slnx"
+}

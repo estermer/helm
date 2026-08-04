@@ -1,0 +1,53 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET API",
+      "type": "coreclr",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/src/Helm.Api/Helm.Api.csproj",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5030"
+      },
+      "preLaunchTask": "build-solution",
+      "console": "internalConsole"
+    },
+    {
+      "name": "SPA (Vite)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "src/Helm.Web"],
+      "cwd": "${workspaceFolder}",
+      "port": 5173,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Docker Compose: helm",
+      "type": "docker-compose",
+      "request": "launch",
+      "dockerComposeFile": "${workspaceFolder}/docker-compose.yml",
+      "service": "helm",
+      "build": {
+        "dockerfile": "${workspaceFolder}/Dockerfile"
+      },
+      "containerName": "helm-debug",
+      "ports": [
+        {
+          "containerPort": 8080,
+          "protocol": "tcp",
+          "hostPort": 5030,
+          "publish": true
+        }
+      ]
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full Stack (API + SPA)",
+      "configurations": [".NET API", "SPA (Vite)"]
+    }
+  ]
+}

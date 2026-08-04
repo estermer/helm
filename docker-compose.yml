@@ -1,0 +1,34 @@
+services:
+  helm:
+    image: helm:stable
+    container_name: helm
+    restart: unless-stopped
+    pull_policy: never
+    env_file:
+      - .env
+    networks:
+      - internal
+      - proxy
+    security_opt:
+      - no-new-privileges:true
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.helm.entrypoints=https"
+      - "traefik.http.routers.helm.rule=Host(`helm.${DOMAIN1}`)"
+      - "traefik.http.routers.helm.tls=true"
+      - "traefik.http.routers.helm.tls.certresolver=cloudflare"
+      - "traefik.http.services.helm.loadbalancer.server.port=8080"
+      - "traefik.http.routers.helm.middlewares=helm-headers"
+      - "traefik.http.middlewares.helm-headers.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.helm-headers.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.helm-headers.headers.stsPreload=true"
+
+networks:
+  proxy:
+    external: true
+  internal:
+    driver: bridge
+

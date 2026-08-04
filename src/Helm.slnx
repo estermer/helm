@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Helm.Api/Helm.Api.csproj" />
+  <Project Path="Helm.Application/Helm.Application.csproj" />
+  <Project Path="Helm.Domain/Helm.Domain.csproj" />
+  <Project Path="Helm.Infrastructure/Helm.Infrastructure.csproj" />
+</Solution>

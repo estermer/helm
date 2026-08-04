@@ -1,0 +1,70 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-solution",
+      "command": "dotnet",
+      "args": ["build", "${workspaceFolder}/src/Helm.slnx"],
+      "type": "process",
+      "problemMatcher": ["$msCompile"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "silent",
+        "close": true
+      }
+    },
+    {
+      "label": "build-spa",
+      "command": "npm",
+      "args": ["run", "build", "--prefix", "${workspaceFolder}/src/Helm.Web"],
+      "type": "process",
+      "problemMatcher": ["$tsc", "$eslint"],
+      "presentation": {
+        "reveal": "silent",
+        "close": true
+      }
+    },
+    {
+      "label": "docker-build",
+      "command": "docker",
+      "args": ["build", "-t", "helm:local", "${workspaceFolder}"],
+      "type": "process",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "close": true
+      }
+    },
+    {
+      "label": "docker-compose-up",
+      "command": "docker",
+      "args": ["compose", "-f", "${workspaceFolder}/docker-compose.yml", "up", "--build"],
+      "type": "process",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "close": true
+      }
+    },
+    {
+      "label": "docker-compose-down",
+      "command": "docker",
+      "args": ["compose", "-f", "${workspaceFolder}/docker-compose.yml", "down"],
+      "type": "process",
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "reveal": "always",
+        "close": true
+      }
+    }
+  ]
+}
