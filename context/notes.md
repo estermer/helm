@@ -4,7 +4,7 @@
 > can read the whole file to see how the project evolved.
 
 ## 2026-08-04 (cont.)
-- Shipped dashboard shell slice. SPA now has left-sidebar nav (`AppMenu`), tool-catalog Dashboard home at `/`, Calculator at `/calculator`, Login stub at `/login`. ~80 lines new code, no new deps, backend untouched. All routes are public for now — explicit forward-compat with the planned ASP.NET Core Identity phase: the calculator never gets gated, auth only wraps Dashboard/Login. Spec at `docs/superpowers/specs/2026-08-04-dashboard-shell-design.md`, plan at `docs/superpowers/plans/2026-08-04-dashboard-shell.md`.
+- Shipped dashboard shell slice. SPA now has left-sidebar nav (`AppMenu`), tool-catalog Dashboard home at `/`, Calculator at `/calculator`, Login stub at `/login`. ~80 lines new code, no new deps, backend untouched. All routes are public for now — explicit forward-compat with the planned ASP.NET Core Identity phase: Dashboard/Calculator never get gated (they're stateless); auth wraps future tools that carry per-user data (tracking, budget); Login/Logout/Register stay public so users can sign in. Spec at `docs/superpowers/specs/2026-08-04-dashboard-shell-design.md`, plan at `docs/superpowers/plans/2026-08-04-dashboard-shell.md`.
 - Deployed to `/opt/homelab/helm`: rebuild `helm:stable`, `docker compose up -d --force-recreate` per existing flow.
 - **Pre-existing API bug surfaced by Task 5 verification:** `POST /api/projections` with `"mode":"Weekly"` (string) returns HTTP 400 at JSON model binding — `ProjectionMode` is currently configured for numeric enum values, so only `"mode":0` succeeds. The API itself computes correctly; this is a pre-existing JSON enum config issue, not part of the dashboard shell. Flagging for a future task.
 
