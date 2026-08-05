@@ -12,6 +12,7 @@ const App = () => (
     dashboard={Dashboard}
     requireAuth={false}
     layout={AppLayout}
+    loginPage={false}
   >
     <CustomRoutes>
       <Route path="/calculator" element={<Projections />} />
