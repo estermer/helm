@@ -255,13 +255,34 @@ git commit -m "feat(web): add AppMenu sidebar with Dashboard, Calculator, Login"
 ## Task 4: Wire `App.tsx` and verify end-to-end
 
 **Files:**
+- Create: `src/Helm.Web/src/layout/AppLayout.tsx`
 - Modify: `src/Helm.Web/src/App.tsx`
 - Test: manual smoke (full flow)
 
 **Interfaces:**
-- Consumes: `Dashboard` from `./pages/Dashboard`, `Login` from `./pages/Login`, `Projections` from `./pages/Projections`, `AppMenu` from `./layout/AppMenu`, `Admin` and `CustomRoutes` from `react-admin`, `Route` from `react-router-dom`.
+- Consumes: `Dashboard` from `./pages/Dashboard`, `Login` from `./pages/Login`, `Projections` from `./pages/Projections`, `AppMenu` from `./layout/AppMenu`, `AppLayout` from `./layout/AppLayout`, `Admin` and `CustomRoutes` from `react-admin`, `Route` from `react-router-dom`.
 
-- [ ] **Step 1: Rewrite `App.tsx`**
+Note: React Admin 5 places the `menu` prop on `<Layout>`, not on `<Admin>`. Passing `menu={AppMenu}` to `<Admin>` is silently dropped at runtime — both rejected by `tsc` and a runtime no-op. The correct integration is to pass a custom `<Layout>` via `layout={AppLayout}`. This brief was corrected after the first dispatch: a new `AppLayout.tsx` file is added that wraps `<Layout menu={AppMenu} {...props} />`.
+
+- [ ] **Step 1: Create `AppLayout.tsx`**
+
+Create `src/Helm.Web/src/layout/AppLayout.tsx` with the following content:
+
+```tsx
+import { Layout } from 'react-admin';
+import type { LayoutProps } from 'react-admin';
+import { AppMenu } from './AppMenu';
+
+export const AppLayout = (props: LayoutProps) => (
+  <Layout {...props} menu={AppMenu} />
+);
+
+export default AppLayout;
+```
+
+Forwards every other `<Layout>` prop (including `children`) verbatim; only overrides `menu`. The `LayoutProps` type from `react-admin` covers `appBar`, `sidebar`, `menu`, `title`, etc. — we only need to swap `menu`.
+
+- [ ] **Step 2: Rewrite `App.tsx`**
 
 Replace the contents of `src/Helm.Web/src/App.tsx` with:
 
@@ -271,7 +292,7 @@ import { Route } from 'react-router-dom';
 import { Projections } from './pages/Projections';
 import { Dashboard } from './pages/Dashboard';
 import { Login } from './pages/Login';
-import { AppMenu } from './layout/AppMenu';
+import { AppLayout } from './layout/AppLayout';
 import { dataProvider } from './dataProvider';
 
 const App = () => (
@@ -279,7 +300,7 @@ const App = () => (
     dataProvider={dataProvider}
     dashboard={Dashboard}
     requireAuth={false}
-    menu={AppMenu}
+    layout={AppLayout}
   >
     <CustomRoutes>
       <Route path="/calculator" element={<Projections />} />
@@ -291,9 +312,9 @@ const App = () => (
 export default App;
 ```
 
-This replaces the previous `dashboard={Projections}` with `dashboard={Dashboard}`, adds `menu={AppMenu}`, and registers `/calculator` and `/login` as `<CustomRoutes>`.
+This replaces the previous `dashboard={Projections}` with `dashboard={Dashboard}`, adds `layout={AppLayout}` (which is what actually mounts `AppMenu` in the sidebar), and registers `/calculator` and `/login` as `<CustomRoutes>`.
 
-- [ ] **Step 2: Lint**
+- [ ] **Step 3: Lint**
 
 Run:
 ```bash
@@ -301,7 +322,7 @@ npm run lint --prefix src/Helm.Web
 ```
 Expected: clean exit (no errors, no warnings).
 
-- [ ] **Step 3: Type-check + build**
+- [ ] **Step 4: Type-check + build**
 
 Run:
 ```bash
@@ -309,7 +330,7 @@ npm run build --prefix src/Helm.Web
 ```
 Expected: completes with no TypeScript errors. Vite emits the SPA to `src/Helm.Web/dist/`.
 
-- [ ] **Step 4: Manual smoke test in dev**
+- [ ] **Step 5: Manual smoke test in dev**
 
 Run the API and SPA in dev:
 ```bash
@@ -330,11 +351,14 @@ Then in a browser at `http://localhost:5173/`:
 
 Stop both processes when done (Ctrl-C each).
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add src/Helm.Web/src/App.tsx
-git commit -m "feat(web): wire Dashboard, Calculator route, Login route, sidebar menu"
+git add src/Helm.Web/src/layout/AppLayout.tsx src/Helm.Web/src/App.tsx
+git commit -m "feat(web): wire Dashboard, Calculator route, Login route, sidebar menu
+
+Adds AppLayout (custom Layout wrapper that mounts AppMenu) since RA 5
+places the menu prop on <Layout>, not <Admin>."
 ```
 
 ---

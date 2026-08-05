@@ -84,7 +84,7 @@ Why:
   dataProvider={dataProvider}
   dashboard={Dashboard}
   requireAuth={false}
-  menu={AppMenu}
+  layout={AppLayout}
 >
   <CustomRoutes>
     <Route path="/calculator" element={<Projections />} />
@@ -94,9 +94,27 @@ Why:
 ```
 
 - `dashboard={Dashboard}` replaces `dashboard={Projections}`.
-- `menu={AppMenu}` overrides RA's default sidebar menu.
+- `layout={AppLayout}` overrides RA's default `<Layout>` with our custom wrapper, which is what makes the custom `<AppMenu>` actually mount in the sidebar (see below).
 - `<CustomRoutes>` registers non-Resource routes.
 - `requireAuth={false}` stays — no auth yet.
+
+### `AppLayout.tsx` — custom RA Layout wrapper (NEW)
+
+In React Admin 5 the `menu` prop lives on `<Layout>`, not on `<Admin>` — passing `menu={AppMenu}` to `<Admin>` is silently dropped at runtime. To mount a custom sidebar menu, a tiny wrapper component is required:
+
+```tsx
+import { Layout } from 'react-admin';
+import type { LayoutProps } from 'react-admin';
+import { AppMenu } from './AppMenu';
+
+export const AppLayout = (props: LayoutProps) => (
+  <Layout {...props} menu={AppMenu} />
+);
+
+export default AppLayout;
+```
+
+Lives at `src/Helm.Web/src/layout/AppLayout.tsx`. Forwards every other `<Layout>` prop (including children) verbatim; only overrides `menu`.
 
 ### `Dashboard.tsx` — tool catalog home
 
