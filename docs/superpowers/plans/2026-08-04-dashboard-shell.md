@@ -462,7 +462,7 @@ git commit -m "docs: note dashboard shell slice in project log"
 - Routing table ✓ (Task 4)
 - Layout/visual ✓ (Tasks 1-3 markup)
 - Data flow / error handling ✓ (no new data flow; error handling unchanged — Task 4 confirms)
-- Manual smoke test — HTTP layer only ✓ (Tasks 4 and 5: `curl /health`, `/`, and `/api/projections` against the running container). The visual 8-item browser checklist in Tasks 4 and 5 was NOT performed in a browser (no browser automation tool was available in this session) and is **deferred to the user** to verify locally before shipping.
+- Manual smoke test — HTTP layer only ✓ (Tasks 4 and 5: `curl /health`, `/`, and `/api/projections` against the running container). The visual browser checklists in Tasks 4 (8 items) and 5 (4 items) were NOT performed in a browser (no browser automation tool was available in this session) and are **deferred to the user** to verify locally before shipping.
 - Build verification ✓ (Tasks 4 and 5)
 - Out-of-scope items correctly omitted (auth, theming, mobile) ✓
 
