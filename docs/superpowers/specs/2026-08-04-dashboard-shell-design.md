@@ -103,10 +103,10 @@ Why:
 - `<Container maxWidth="lg">` for comfortable line length.
 - `<Typography variant="h4">` heading: "Helm".
 - `<Typography variant="body1">` subtitle: "Self-hosted options toolkit. Pick a tool to get started."
-- `<Grid container spacing={3}>` with one `<Grid item xs={12} sm={6} md={4}>` containing a `<Card>`.
+- `<Grid container spacing={3}>` with one `<Grid size={{ xs: 12, sm: 6, md: 4 }}>` (MUI v9 Grid v2 syntax — the project pulls MUI v9 transitively via React Admin; the legacy `item xs/sm/md` syntax was removed) containing a `<Card>`.
 - Card: MUI `<Card>` with `<CardActionArea component={Link} to="/calculator">` wrapping contents. Click navigates to `/calculator` via React Router's `<Link>`.
 - Card content: title "Calculator" + one-line description "Project weekly option-selling returns".
-- No icon unless `CalculateIcon` is already available from `@mui/icons-material`. No new dependency for an icon.
+- `Calculate` icon from `@mui/icons-material/Calculate` (available transitively, no new dep) decorates the card heading.
 - No "coming soon" cards. No widgets. Pure tool catalog.
 
 ### `AppMenu.tsx` — sidebar

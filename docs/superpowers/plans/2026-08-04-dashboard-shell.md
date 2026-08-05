@@ -61,7 +61,7 @@ export const Dashboard = () => (
       Self-hosted options toolkit. Pick a tool to get started.
     </Typography>
     <Grid container spacing={3}>
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <Card>
           <CardActionArea component={Link} to="/calculator">
             <CardContent>
@@ -84,6 +84,8 @@ export const Dashboard = () => (
 
 export default Dashboard;
 ```
+
+Note: the project pulls MUI v9 transitively via React Admin. The Grid component in v9 uses the Grid v2 API (`size={{ xs, sm, md }}`); the legacy `item xs={...} sm={...} md={...}` props were removed.
 
 - [ ] **Step 2: Type-check**
 
