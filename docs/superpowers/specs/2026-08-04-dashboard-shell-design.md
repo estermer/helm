@@ -111,10 +111,12 @@ Why:
 
 ### `AppMenu.tsx` — sidebar
 
-- Default export is a React component that returns RA's `<Menu>` plus the items below.
-- Top group: `<MenuItem>` "Dashboard" (react-admin's `<MenuItem to="/">`), `<MenuItem>` "Calculator" (react-admin's `<MenuItem to="/calculator">`).
-- Bottom-pinned: `<MenuItem>` "Login" wrapped in a `<Box sx={{ mt: 'auto' }}>` so flexbox pushes it to the bottom of the sidebar.
-- Active state: RA's default active-state styling via the `to` prop on each `<MenuItem>`.
+- Default export is a React component that returns the sidebar markup.
+- Outer wrapper is a flex column filling the sidebar height.
+- Top group: react-admin's `<Menu.Item to="/" primaryText="Dashboard">`, `<Menu.Item to="/calculator" primaryText="Calculator">`.
+- Bottom-pinned: `<Menu.Item to="/login" primaryText="Login">`, wrapped in `<Box sx={{ mt: 'auto' }}>` so flexbox pushes it to the bottom of the sidebar.
+- The top items are rendered inside a `<Menu>` component; the bottom-pinned item is rendered inside a separate `<Menu>` wrapped by `<Box sx={{ mt: 'auto' }}>`. (React Admin 5's API: `Menu.Item`, not a top-level `MenuItem` export — `Menu` exposes `Menu.Item = MenuItemLink`. `MenuItemLink` is also exported if a flat list is preferred.)
+- Active state: RA's default active-state styling via the `to` prop.
 - No collapse, no grouping, no badges.
 
 ### `Login.tsx` — stub

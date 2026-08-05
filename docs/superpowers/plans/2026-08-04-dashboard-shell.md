@@ -190,10 +190,10 @@ git commit -m "feat(web): add Login stub page"
 - Test: manual smoke
 
 **Interfaces:**
-- Consumes: `Menu` and `MenuItem` from `react-admin` (RA's `<MenuItem>` accepts a `to` prop and renders active-state styling).
+- Consumes: `Menu` from `react-admin` (RA 5's `<Menu>` exposes `Menu.Item` — the per-link component — and `Menu.DashboardMenuItem`/`Menu.ResourceItem` for Resource-based links; use `Menu.Item` for non-Resource routes).
 - Produces: default export `AppMenu` — a React component passed to `<Admin menu={AppMenu}>`.
 
-Note: react-admin's `<MenuItem>` is a wrapper around a navigation link. When given `to="/login"`, it renders a normal list item with the active-state styling RA applies.
+Note: React Admin 5 does **not** export a top-level `MenuItem` named export. The correct API is `<Menu.Item to="/..." primaryText="..." />` (where `Menu.Item === MenuItemLink`). The previous version of this brief used `MenuItem`; the implementer caught this on the first attempt and asked for confirmation before proceeding. This corrected brief uses the canonical `Menu.Item` API.
 
 - [ ] **Step 1: Create the layout directory**
 
@@ -208,7 +208,7 @@ Write `src/Helm.Web/src/layout/AppMenu.tsx` with the following content:
 
 ```tsx
 import { Box } from '@mui/material';
-import { Menu, MenuItem } from 'react-admin';
+import { Menu } from 'react-admin';
 
 export const AppMenu = () => (
   <Box
@@ -219,12 +219,12 @@ export const AppMenu = () => (
     }}
   >
     <Menu>
-      <MenuItem to="/" primaryText="Dashboard" />
-      <MenuItem to="/calculator" primaryText="Calculator" />
+      <Menu.Item to="/" primaryText="Dashboard" />
+      <Menu.Item to="/calculator" primaryText="Calculator" />
     </Menu>
     <Box sx={{ mt: 'auto' }}>
       <Menu>
-        <MenuItem to="/login" primaryText="Login" />
+        <Menu.Item to="/login" primaryText="Login" />
       </Menu>
     </Box>
   </Box>
@@ -233,15 +233,15 @@ export const AppMenu = () => (
 export default AppMenu;
 ```
 
-The outer `<Box>` is a flex column filling the sidebar height. The top `<Menu>` block grows naturally; the bottom `<Menu>` is wrapped in a `<Box sx={{ mt: 'auto' }}>` which flex-pushes it to the bottom of the sidebar. Each `<MenuItem>` uses react-admin's `to` prop for both navigation and active-state highlighting.
+The outer `<Box>` is a flex column filling the sidebar height. The top `<Menu>` block grows naturally; the bottom `<Menu>` is wrapped in a `<Box sx={{ mt: 'auto' }}>` which flex-pushes it to the bottom of the sidebar. Each `Menu.Item` uses the `to` prop for both navigation and active-state highlighting.
 
-- [ ] **Step 3: Type-check**
+- [ ] **Step 3: Type-check + build**
 
 Run:
 ```bash
 npm run build --prefix src/Helm.Web
 ```
-Expected: completes with no TypeScript errors. The new file isn't reachable yet — that's fine, it's used in Task 4.
+Expected: completes with no TypeScript errors. Vite emits the SPA to `src/Helm.Web/dist/`.
 
 - [ ] **Step 4: Commit**
 
