@@ -404,10 +404,12 @@ Expected output: `200`
 ```bash
 curl -sf -X POST http://localhost:5030/api/projections \
   -H "Content-Type: application/json" \
-  -d '{"weeklyRate":0.02,"startingBalance":10000,"weeklyContribution":100,"mode":"Weekly"}' \
+  -d '{"weeklyRate":0.02,"startingBalance":10000,"weeklyContribution":100,"mode":0}' \
   | head -c 200
 ```
-Expected: a JSON response starting with `{"rows":[...`. (Calculator API still works.)
+Expected: a JSON response starting with `{"rows":[...`. (Calculator API still works — using numeric enum `0` for Weekly.)
+
+> **Pre-existing API bug discovered during this verification:** `POST /api/projections` with `"mode":"Weekly"` (string) returns HTTP 400 — `ProjectionMode` is currently configured for numeric enum values. The API itself computes correctly; this is a pre-existing JSON enum config issue, not part of the dashboard shell. Flagged for a separate follow-up slice — see `context/notes.md` entry "Pre-existing API bug surfaced by Task 5 verification". When the fix lands, this curl example should switch back to `"mode":"Weekly"` for readability.
 
 In a browser at `http://localhost:5030/`:
 
@@ -460,7 +462,7 @@ git commit -m "docs: note dashboard shell slice in project log"
 - Routing table ✓ (Task 4)
 - Layout/visual ✓ (Tasks 1-3 markup)
 - Data flow / error handling ✓ (no new data flow; error handling unchanged — Task 4 confirms)
-- Manual smoke test ✓ (Tasks 4 and 5)
+- Manual smoke test — HTTP layer only ✓ (Tasks 4 and 5: `curl /health`, `/`, and `/api/projections` against the running container). The visual 8-item browser checklist in Tasks 4 and 5 was NOT performed in a browser (no browser automation tool was available in this session) and is **deferred to the user** to verify locally before shipping.
 - Build verification ✓ (Tasks 4 and 5)
 - Out-of-scope items correctly omitted (auth, theming, mobile) ✓
 

@@ -59,20 +59,21 @@ React Admin–native: custom `<Menu>`, `<CustomRoutes>`, and `dashboard` slot. R
 
 ```
 src/Helm.Web/src/
-  App.tsx                 # rewired: dashboard={<Dashboard />}, menu={AppMenu}, <CustomRoutes>
+  App.tsx                 # rewired: dashboard={Dashboard}, layout={AppLayout}, <CustomRoutes>
   pages/
     Dashboard.tsx         # NEW — tool catalog home
     Projections.tsx       # unchanged (still the calculator)
     Login.tsx             # NEW — stub page
   layout/
     AppMenu.tsx           # NEW — wraps RA Menu with Dashboard, Calculator, Login (pinned bottom)
+    AppLayout.tsx         # NEW — wraps RA <Layout> with menu={AppMenu} (RA 5 places menu on <Layout>, not <Admin>)
   dataProvider.ts         # unchanged
   types.ts                # unchanged
 ```
 
 Why:
 - `pages/` for route components — matches the existing one-folder-per-page convention.
-- `layout/` for shell chrome. Single file because it's small; split if it grows.
+- `layout/` for shell chrome. Two files because RA 5 requires a `<Layout>` wrapper to mount a custom menu — the `AppMenu` is the menu itself, `AppLayout` is the wiring layer that puts it into the `<Layout>` slot.
 - `App.tsx` is the only file that knows about React Admin wiring.
 
 ## Components
