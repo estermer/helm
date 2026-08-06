@@ -31,8 +31,8 @@ const RATE_OPTIONS: { value: number; label: string }[] = [
 ];
 
 const MODES: { value: ProjectionMode; label: string }[] = [
-  { value: 'Weekly', label: 'Weekly (300 rows)' },
-  { value: 'Yearly', label: 'Yearly (10 rows)' },
+  { value: 'Weekly', label: 'Weekly' },
+  { value: 'Yearly', label: 'Yearly' },
 ];
 
 const money = (n: number) =>

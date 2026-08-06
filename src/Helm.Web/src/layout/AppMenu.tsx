@@ -1,9 +1,7 @@
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CalculateIcon from '@mui/icons-material/Calculate';
 import LoginIcon from '@mui/icons-material/Login';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import MenuIcon from '@mui/icons-material/Menu';
 import { Menu, useSidebarState } from 'react-admin';
 import type { ReactNode } from 'react';
 
@@ -22,7 +20,7 @@ const NavItem = ({ to, primaryText, icon, open }: ItemProps) => {
 };
 
 export const AppMenu = () => {
-  const [open, setOpen] = useSidebarState();
+  const [open, _] = useSidebarState();
 
   return (
     <Box
