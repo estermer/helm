@@ -1,25 +1,51 @@
-import { Box } from '@mui/material';
-import { Menu } from 'react-admin';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import CalculateIcon from '@mui/icons-material/Calculate';
+import LoginIcon from '@mui/icons-material/Login';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Menu, useSidebarState } from 'react-admin';
+import type { ReactNode } from 'react';
 
-export const AppMenu = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      width: 150,
-    }}
-  >
-    <Menu>
-      <Menu.Item to="/" primaryText="Dashboard" />
-      <Menu.Item to="/calculator" primaryText="Calculator" />
-    </Menu>
-    <Box sx={{ mt: 'auto' }}>
+type ItemProps = {
+  to: string;
+  primaryText: string;
+  icon: ReactNode;
+  open: boolean;
+};
+
+const NavItem = ({ to, primaryText, icon, open }: ItemProps) => {
+  const item = (
+    <Menu.Item to={to} primaryText={open ? primaryText : ''} leftIcon={icon} />
+  );
+  return open ? item : <Tooltip title={primaryText} placement="right">{item}</Tooltip>;
+};
+
+export const AppMenu = () => {
+  const [open, setOpen] = useSidebarState();
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        width: open ? 200 : 60,
+        transition: 'width 0.2s ease',
+      }}
+    >
       <Menu>
-        <Menu.Item to="/login" primaryText="Login" />
+        <NavItem to="/" primaryText="Dashboard" icon={<DashboardIcon />} open={open} />
+        <NavItem to="/calculator" primaryText="Calculator" icon={<CalculateIcon />} open={open} />
       </Menu>
+
+      <Box sx={{ mt: 'auto' }}>
+        <Menu>
+          <NavItem to="/login" primaryText="Login" icon={<LoginIcon />} open={open} />
+        </Menu>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export default AppMenu;
