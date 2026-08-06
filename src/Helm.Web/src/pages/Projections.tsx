@@ -39,10 +39,10 @@ const money = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
 export const Projections = () => {
-  const [weeklyRate, setWeeklyRate] = useState(0.02);
+  const [weeklyRate, setWeeklyRate] = useState(0.01);
   const [startingBalance, setStartingBalance] = useState('10000');
-  const [weeklyContribution, setWeeklyContribution] = useState('100');
-  const [mode, setMode] = useState<ProjectionMode>('Weekly');
+  const [weeklyContribution, setWeeklyContribution] = useState('0');
+  const [mode, setMode] = useState<ProjectionMode>('Yearly');
 
   const [rows, setRows] = useState<ProjectionResponse['rows'] | null>(null);
   const [loading, setLoading] = useState(false);
