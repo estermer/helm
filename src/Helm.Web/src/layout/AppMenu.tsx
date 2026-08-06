@@ -7,6 +7,7 @@ export const AppMenu = () => (
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
+      width: 150,
     }}
   >
     <Menu>

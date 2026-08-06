@@ -79,7 +79,7 @@ export const Projections = () => {
   const incomeLabel = mode === 'Weekly' ? 'Weekly income' : 'Annual income';
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ px: 1, py: 2 }}>
       <Card>
         <CardContent>
           <Typography variant="h5" gutterBottom>
@@ -134,7 +134,7 @@ export const Projections = () => {
               variant="contained"
               onClick={submit}
               disabled={loading}
-              sx={{ alignSelf: 'center' }}
+              sx={{ alignSelf: 'center', minWidth: 'auto' }}
             >
               {loading ? 'Calculating…' : 'Calculate'}
             </Button>
